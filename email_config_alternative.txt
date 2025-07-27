@@ -1,0 +1,11 @@
+# Alternative SMTP settings untuk Gmail
+# Jika port 587 tidak work, coba ini:
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=105841117422@student.unismuh.ac.id
+MAIL_PASSWORD=YOUR_NEW_APP_PASSWORD
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS="105841117422@student.unismuh.ac.id"
+MAIL_FROM_NAME="SIPADES - Sistem Informasi Pelayanan Administrasi Desa"

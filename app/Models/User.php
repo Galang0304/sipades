@@ -23,16 +23,11 @@ class User extends Authenticatable
         'email',
         'password',
         'nik',
-        'no_kk',
-        'alamat',
-        'rw',
-        'rt',
-        'no_tlp',
-        'status_penduduk',
         'foto_profil',
         'foto_kk',
         'is_active',
         'is_pending',
+        'barcode_filename',
     ];
 
     /**

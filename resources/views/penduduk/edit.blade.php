@@ -65,7 +65,7 @@
                             <div class="form-group">
                                 <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                                       id="name" name="name" value="{{ old('name', $user->name) }}" 
+                                       id="name" name="name" value="{{ old('name', $user ? $user->name : $penduduk->nama_lengkap) }}" 
                                        placeholder="Masukkan nama lengkap" required>
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -76,7 +76,7 @@
                             <div class="form-group">
                                 <label for="email">Email <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" 
-                                       id="email" name="email" value="{{ old('email', $user->email) }}" 
+                                       id="email" name="email" value="{{ old('email', $user ? $user->email : '') }}" 
                                        placeholder="Masukkan email" required>
                                 @error('email')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -117,7 +117,7 @@
                             <div class="form-group">
                                 <label for="nik">NIK <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('nik') is-invalid @enderror" 
-                                       id="nik" name="nik" value="{{ old('nik', $user->nik) }}" 
+                                       id="nik" name="nik" value="{{ old('nik', $penduduk->nik) }}" 
                                        placeholder="Masukkan NIK (16 digit)" maxlength="16" pattern="[0-9]{16}" required>
                                 @error('nik')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -128,7 +128,7 @@
                             <div class="form-group">
                                 <label for="no_kk">Nomor Kartu Keluarga <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('no_kk') is-invalid @enderror" 
-                                       id="no_kk" name="no_kk" value="{{ old('no_kk', $user->no_kk) }}" 
+                                       id="no_kk" name="no_kk" value="{{ old('no_kk', $penduduk->no_kk) }}" 
                                        placeholder="Masukkan No. KK (16 digit)" maxlength="16" pattern="[0-9]{16}" required>
                                 @error('no_kk')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -142,7 +142,7 @@
                             <div class="form-group">
                                 <label for="no_tlp">No. Telepon <span class="text-danger">*</span></label>
                                 <input type="tel" class="form-control @error('no_tlp') is-invalid @enderror" 
-                                       id="no_tlp" name="no_tlp" value="{{ old('no_tlp', $user->no_tlp) }}" 
+                                       id="no_tlp" name="no_tlp" value="{{ old('no_tlp', $penduduk->no_tlp) }}" 
                                        placeholder="Masukkan nomor telepon" required>
                                 @error('no_tlp')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -155,9 +155,8 @@
                                 <select class="form-control @error('status_penduduk') is-invalid @enderror" 
                                         id="status_penduduk" name="status_penduduk" required>
                                     <option value="">Pilih Status Penduduk</option>
-                                    <option value="penduduk_tetap" {{ old('status_penduduk', $user->status_penduduk) == 'penduduk_tetap' ? 'selected' : '' }}>Penduduk Tetap</option>
-                                    <option value="pindahan" {{ old('status_penduduk', $user->status_penduduk) == 'pindahan' ? 'selected' : '' }}>Pindahan</option>
-                                    <option value="pendatang" {{ old('status_penduduk', $user->status_penduduk) == 'pendatang' ? 'selected' : '' }}>Pendatang</option>
+                                    <option value="Tetap" {{ old('status_penduduk', $penduduk->status_penduduk) == 'Tetap' ? 'selected' : '' }}>Penduduk Tetap</option>
+                                    <option value="Sementara" {{ old('status_penduduk', $penduduk->status_penduduk) == 'Sementara' ? 'selected' : '' }}>Penduduk Sementara</option>
                                 </select>
                                 @error('status_penduduk')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -274,7 +273,7 @@
                                 <label for="alamat">Alamat Lengkap <span class="text-danger">*</span></label>
                                 <textarea class="form-control @error('alamat') is-invalid @enderror" 
                                           id="alamat" name="alamat" rows="3" 
-                                          placeholder="Masukkan alamat lengkap" required>{{ old('alamat', $penduduk->alamat ?? $user->alamat) }}</textarea>
+                                          placeholder="Masukkan alamat lengkap" required>{{ old('alamat', $penduduk->alamat) }}</textarea>
                                 @error('alamat')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -287,7 +286,7 @@
                             <div class="form-group">
                                 <label for="rt">RT <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('rt') is-invalid @enderror" 
-                                       id="rt" name="rt" value="{{ old('rt', $penduduk->rt ?? $user->rt) }}" 
+                                       id="rt" name="rt"                                        value="{{ old('rt', $penduduk->rt) }}" 
                                        placeholder="Masukkan RT" maxlength="3" pattern="[0-9]{1,3}" required>
                                 @error('rt')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -298,7 +297,7 @@
                             <div class="form-group">
                                 <label for="rw">RW <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control @error('rw') is-invalid @enderror" 
-                                       id="rw" name="rw" value="{{ old('rw', $penduduk->rw ?? $user->rw) }}" 
+                                       id="rw" name="rw"                                        value="{{ old('rw', $penduduk->rw) }}" 
                                        placeholder="Masukkan RW" maxlength="3" pattern="[0-9]{1,3}" required>
                                 @error('rw')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -329,11 +328,11 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            @if($user->foto_kk)
+                            @if($penduduk->foto_kk)
                                 <div class="form-group">
                                     <label>Foto KK Saat Ini:</label>
                                     <div>
-                                        <a href="{{ $user->foto_kk_url }}" target="_blank" class="btn btn-info btn-sm">
+                                        <a href="{{ asset('storage/' . $penduduk->foto_kk) }}" target="_blank" class="btn btn-info btn-sm">
                                             <i class="fas fa-eye"></i> Lihat Foto KK
                                         </a>
                                     </div>

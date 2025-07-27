@@ -84,37 +84,32 @@ class PendudukController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . optional($penduduk->user)->id,
             'password' => 'nullable|string|min:8|confirmed',
-            'nik' => 'required|string|size:16|unique:users,nik,' . optional($penduduk->user)->id,
+            
+            // Data penduduk (semua data pribadi dan alamat)
+            'nik' => 'required|string|size:16|unique:penduduk,nik,' . $penduduk->id,
             'no_kk' => 'required|string|size:16',
             'no_tlp' => 'required|string',
-            'status_penduduk' => 'required|in:penduduk_tetap,pindahan,pendatang',
+            'status_penduduk' => 'required|in:Tetap,Sementara',
             'alamat' => 'required|string',
             'rt' => 'required|string|max:3',
             'rw' => 'required|string|max:3',
-            
-            // Data pribadi (penduduk table)
-            'nama_lengkap' => 'required|string|max:255',
+            'nama_lengkap' => 'nullable|string|max:255',
             'tempat_lahir' => 'nullable|string|max:255',
             'tanggal_lahir' => 'nullable|date',
             'jenis_kelamin' => 'nullable|in:Laki-laki,Perempuan',
             'status_perkawinan' => 'nullable|in:Belum Kawin,Kawin,Cerai Hidup,Cerai Mati',
             'agama' => 'nullable|in:Islam,Kristen,Katolik,Hindu,Buddha,Konghucu',
             'pekerjaan' => 'nullable|string|max:255',
+            'foto_kk' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
-        // Update users table
+        // Update users table (hanya data akun)
         $user = $penduduk->user;
         if ($user) {
             $userData = [
                 'name' => $request->name,
                 'email' => $request->email,
                 'nik' => $request->nik,
-                'no_kk' => $request->no_kk,
-                'no_tlp' => $request->no_tlp,
-                'status_penduduk' => $request->status_penduduk,
-                'alamat' => $request->alamat,
-                'rt' => $request->rt,
-                'rw' => $request->rw,
             ];
             
             // Only update password if provided
@@ -125,19 +120,37 @@ class PendudukController extends Controller
             $user->update($userData);
         }
 
-        // Update penduduk table
+        // Handle foto KK upload
+        $foto_kk = $penduduk->foto_kk;
+        if ($request->hasFile('foto_kk')) {
+            // Delete old file if exists
+            if ($foto_kk && \Storage::disk('public')->exists($foto_kk)) {
+                \Storage::disk('public')->delete($foto_kk);
+            }
+            
+            // Store new file
+            $file = $request->file('foto_kk');
+            $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9\-\.]/', '', $file->getClientOriginalName());
+            $foto_kk = $file->storeAs('foto_kk', $fileName, 'public');
+        }
+
+        // Update penduduk table (semua data lengkap)
         $pendudukData = [
             'nik' => $request->nik,
+            'no_kk' => $request->no_kk,
             'nama_lengkap' => $request->nama_lengkap ?? $request->name,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'alamat' => $request->alamat,
             'rt' => $request->rt,
             'rw' => $request->rw,
+            'no_tlp' => $request->no_tlp,
+            'foto_kk' => $foto_kk,
             'agama' => $request->agama,
             'jenis_kelamin' => $request->jenis_kelamin,
             'status_perkawinan' => $request->status_perkawinan,
             'pekerjaan' => $request->pekerjaan,
+            'status_penduduk' => $request->status_penduduk,
         ];
 
         $penduduk->update($pendudukData);

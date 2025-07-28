@@ -162,12 +162,6 @@
                                                     <small class="text-muted">
                                                         <i class="fas fa-info-circle"></i> JPG, PNG • Max 2MB
                                                     </small>
-                                                    @if($user->foto_profil)
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" 
-                                                                onclick="removePhoto()">
-                                                            <i class="fas fa-trash"></i> Hapus Foto
-                                                        </button>
-                                                    @endif
                                                 </div>
                                                 
                                                 <!-- Preview status -->
@@ -479,34 +473,6 @@ function previewImage(input) {
         reader.readAsDataURL(file);
     } else {
         console.log('No file selected or files array empty');
-    }
-}
-
-// Remove photo function
-function removePhoto() {
-    if (confirm('Apakah Anda yakin ingin menghapus foto profil?')) {
-        // Reset input
-        document.getElementById('foto_profil').value = '';
-        
-        // Reset preview
-        $('#profilePreview').replaceWith(
-            '<div id="profilePreview" ' +
-            'class="bg-gradient-primary rounded-circle shadow d-flex align-items-center justify-content-center text-white" ' +
-            'style="width: 120px; height: 120px; border: 4px solid #fff;">' +
-            '<i class="fas fa-user fa-3x"></i>' +
-            '</div>'
-        );
-        
-        // Reset navbar
-        $('.navbar .img-circle').attr('src', '{{ asset("images/default-avatar.svg") }}');
-        
-        // Reset filename
-        $('#fileName').html('<i class="fas fa-image mr-2"></i>Belum ada file dipilih');
-        
-        // Hide preview status
-        $('#previewStatus').addClass('d-none');
-        
-        alert('Foto profil telah dihapus dari preview.');
     }
 }
 </script>

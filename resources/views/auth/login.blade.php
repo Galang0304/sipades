@@ -78,7 +78,7 @@
 <div class="mt-3 text-center">
     <small class="text-white">
         <i class="fas fa-info-circle"></i>
-        Demo Login: admin@sipades.com | password
+        Demo Login: admin@kuinsel.com | password
     </small>
 </div>
 </div>

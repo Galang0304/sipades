@@ -7,6 +7,7 @@ use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\PengajuanSuratController;
 use App\Http\Controllers\ValidasiSuratController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LandingController;
 
 use App\Http\Controllers\Auth\PasswordResetController;
 
@@ -20,6 +21,9 @@ use App\Http\Controllers\Auth\PasswordResetController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Landing Page (homepage sebelum login)
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 // Test routes untuk email
 require __DIR__ . '/test_email.php';
@@ -41,13 +45,6 @@ Route::get('/debug-dashboard', function () {
         'is_member' => $user->isMember()
     ];
 })->middleware('auth');
-
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect()->route('dashboard');
-    }
-    return redirect()->route('login');
-});
 
 // Authentication Routes
 Auth::routes();
@@ -119,16 +116,22 @@ Route::middleware(['auth'])->group(function () {
         Route::post('user-approval/{user}/approve', [\App\Http\Controllers\Admin\UserApprovalController::class, 'approve'])->name('user-approval.approve');
         Route::post('user-approval/{user}/reject', [\App\Http\Controllers\Admin\UserApprovalController::class, 'reject'])->name('user-approval.reject');
         Route::get('user-approval/{user}', [\App\Http\Controllers\Admin\UserApprovalController::class, 'show'])->name('user-approval.show');
+        
+        // Laporan Routes (accessible by admin and petugas only)
+        Route::get('laporan/surat', [\App\Http\Controllers\LaporanSuratController::class, 'index'])->name('laporan.surat');
+        Route::get('laporan/surat/cetak', [\App\Http\Controllers\LaporanSuratController::class, 'cetak'])->name('laporan.surat.cetak');
+        Route::get('laporan/penduduk', [\App\Http\Controllers\LaporanPendudukController::class, 'index'])->name('laporan.penduduk');
+        Route::get('laporan/penduduk/cetak', [\App\Http\Controllers\LaporanPendudukController::class, 'cetak'])->name('laporan.penduduk.cetak');
+        
+        // Informasi Routes (accessible by admin and petugas only)
+        Route::resource('informasi', \App\Http\Controllers\InformasiController::class);
+        
+        // Public informasi route for all users
+        Route::get('informasi-public', [\App\Http\Controllers\InformasiController::class, 'publicView'])->name('informasi.public');
     });
 
     // Admin only routes  
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
-        // User Approval Routes with admin prefix
-        Route::get('user-approval', [\App\Http\Controllers\Admin\UserApprovalController::class, 'index'])->name('user-approval.index');
-        Route::post('user-approval/{user}/approve', [\App\Http\Controllers\Admin\UserApprovalController::class, 'approve'])->name('user-approval.approve');
-        Route::post('user-approval/{user}/reject', [\App\Http\Controllers\Admin\UserApprovalController::class, 'reject'])->name('user-approval.reject');
-        Route::get('user-approval/{user}', [\App\Http\Controllers\Admin\UserApprovalController::class, 'show'])->name('user-approval.show');
-
         // Role Management Routes
         Route::get('roles', [\App\Http\Controllers\Admin\RoleController::class, 'index'])->name('roles.index');
         Route::get('roles/create', [\App\Http\Controllers\Admin\RoleController::class, 'create'])->name('roles.create');

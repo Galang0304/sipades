@@ -114,7 +114,7 @@
         .barcode-signature {
             text-align: right;
             margin: 10px 0;
-            padding-right: 120px;
+            padding-right: 10px;
         }
         
         .barcode-signature img {

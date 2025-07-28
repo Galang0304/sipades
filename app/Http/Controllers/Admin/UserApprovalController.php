@@ -157,4 +157,15 @@ class UserApprovalController extends Controller
             ]);
         }
     }
+    
+    public function show($id)
+    {
+        $user = User::with('penduduk')->find($id);
+        
+        if (!$user) {
+            abort(404, 'User tidak ditemukan');
+        }
+        
+        return view('admin.user_approval.show', compact('user'));
+    }
 }

@@ -17,6 +17,9 @@
                     <a href="{{ route('penduduk.create') }}" class="btn btn-primary btn-sm">
                         <i class="fas fa-plus"></i> Tambah Penduduk
                     </a>
+                    <button onclick="printPenduduk()" class="btn btn-success btn-sm ml-2">
+                        <i class="fas fa-print"></i> Cetak Data
+                    </button>
                 </div>
             </div>
             <div class="card-body">
@@ -122,6 +125,80 @@ $(document).ready(function() {
             }
         });
     });
+    
+    // Fungsi cetak data penduduk
+    window.printPenduduk = function() {
+        const printWindow = window.open('', '_blank');
+        const table = $('#penduduk-table').DataTable();
+        const data = table.rows().data();
+        
+        let html = `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Data Penduduk - KUINSEL</title>
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    .header { text-align: center; margin-bottom: 30px; }
+                    .header h1 { margin: 0; font-size: 18px; }
+                    .header h2 { margin: 5px 0; font-size: 16px; }
+                    .header p { margin: 5px 0; font-size: 12px; }
+                    table { width: 100%; border-collapse: collapse; font-size: 11px; }
+                    th, td { border: 1px solid #000; padding: 5px; text-align: left; }
+                    th { background-color: #f0f0f0; font-weight: bold; }
+                    .no { text-align: center; width: 30px; }
+                    .print-date { text-align: right; margin-top: 20px; font-size: 10px; }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <h1>KELURAHAN KUIN SELATAN</h1>
+                    <h2>DATA PENDUDUK</h2>
+                    <p>JL. SIMPANG KUIN SELATAN RT.22 NO.01, BANJARMASIN BARAT</p>
+                    <p>KOTA BANJARMASIN, KALIMANTAN SELATAN 70128</p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="no">No</th>
+                            <th>NIK</th>
+                            <th>Nama Lengkap</th>
+                            <th>TTL</th>
+                            <th>Umur</th>
+                            <th>JK</th>
+                            <th>Alamat</th>
+                            <th>Pekerjaan</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+        
+        data.each(function(row, index) {
+            html += `
+                <tr>
+                    <td class="no">${index + 1}</td>
+                    <td>${row[0]}</td>
+                    <td>${row[1]}</td>
+                    <td>${row[2]}</td>
+                    <td>${row[3]}</td>
+                    <td>${row[4]}</td>
+                    <td>${row[5]}</td>
+                    <td>${row[6]}</td>
+                </tr>`;
+        });
+        
+        html += `
+                    </tbody>
+                </table>
+                <div class="print-date">
+                    Dicetak pada: ${new Date().toLocaleDateString('id-ID')} ${new Date().toLocaleTimeString('id-ID')}
+                </div>
+            </body>
+            </html>`;
+        
+        printWindow.document.write(html);
+        printWindow.document.close();
+        printWindow.print();
+    };
 });
 </script>
 @endpush

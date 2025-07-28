@@ -19,13 +19,13 @@
     
     <style>
         .main-header .navbar {
-            background-color: #0d6efd !important;
+            background-color: #28a745 !important;
         }
         .main-sidebar {
             background-color: #343a40 !important;
         }
         .brand-link {
-            background-color: #0d6efd !important;
+            background-color: #28a745 !important;
         }
         
         /* Navbar profile image styling */
@@ -187,6 +187,11 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="{{ route('dashboard') }}" class="brand-link">
+            @if(file_exists(public_path('assets/images/logo/kuinsel-logo.png')))
+                <img src="{{ asset('assets/images/logo/kuinsel-logo.png') }}" alt="KUINSEL Logo" class="brand-image img-circle elevation-3" style="opacity: .8; max-height: 33px;">
+            @else
+                <i class="fas fa-building brand-image" style="opacity: .8; margin-left: 10px; font-size: 20px;"></i>
+            @endif
             <span class="brand-text font-weight-light">KUINSEL</span>
         </a>
 
@@ -198,7 +203,7 @@
                     
                     <!-- Dashboard -->
                     <li class="nav-item">
-                        <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') && !request()->routeIs('laporan.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>Dashboard</p>
                         </a>
@@ -217,7 +222,7 @@
                     @role('admin')
                     <!-- User Approval -->
                     <li class="nav-item">
-                        <a href="{{ route('admin.user-approval.index') }}" class="nav-link {{ request()->routeIs('admin.user-approval.*') ? 'active' : '' }}">
+                        <a href="{{ route('user-approval.index') }}" class="nav-link {{ request()->routeIs('user-approval.*') ? 'active' : '' }}">
                             <i class="nav-icon fas fa-user-shield"></i>
                             <p>
                                 User Approval
@@ -318,6 +323,41 @@
                             @endif
                         </ul>
                     </li>
+
+                    @hasrole(['admin', 'petugas'])
+                    <!-- Kelola Informasi -->
+                    <li class="nav-item">
+                        <a href="{{ route('informasi.index') }}" class="nav-link {{ request()->routeIs('informasi.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-info-circle"></i>
+                            <p>Kelola Informasi</p>
+                        </a>
+                    </li>
+
+                    <!-- Laporan -->
+                    <li class="nav-item {{ request()->routeIs('laporan.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ request()->routeIs('laporan.*') ? 'active' : '' }}" data-toggle="treeview">
+                            <i class="nav-icon fas fa-chart-bar"></i>
+                            <p>
+                                Laporan
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('laporan.surat') }}" class="nav-link {{ request()->routeIs('laporan.surat') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan Surat</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('laporan.penduduk') }}" class="nav-link {{ request()->routeIs('laporan.penduduk') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan Penduduk</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    @endhasrole
 
                     <!-- Profile Menu untuk semua user -->
                     <li class="nav-item">

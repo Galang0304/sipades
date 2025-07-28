@@ -19,7 +19,7 @@
     
     <style>
         .login-page {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         }
         .card {
             border-radius: 15px;
@@ -32,12 +32,12 @@
             text-decoration: none;
         }
         .btn-primary {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #28a745, #20c997);
             border: none;
             border-radius: 25px;
         }
         .btn-primary:hover {
-            background: linear-gradient(45deg, #764ba2, #667eea);
+            background: linear-gradient(45deg, #20c997, #28a745);
         }
     </style>
 </head>
@@ -46,8 +46,10 @@
     <!-- /.login-logo -->
     <div class="login-logo">
         <a href="{{ url('/') }}">
-            @if(file_exists(public_path('assets/images/logo/sipades-logo.png')))
-                <img src="{{ asset('assets/images/logo/sipades-logo.png') }}" alt="SIPADES Logo" class="img-fluid" style="max-height: 60px;">
+            @if(file_exists(public_path('assets/images/logo/kuinsel-logo.png')))
+                <img src="{{ asset('assets/images/logo/kuinsel-logo.png') }}" alt="KUINSEL Logo" class="img-fluid" style="max-height: 80px; margin-bottom: 10px;">
+                <br>
+                <b>KUIN</b>SEL
             @else
                 <i class="fas fa-building"></i>
                 <b>KUIN</b>SEL

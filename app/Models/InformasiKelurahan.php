@@ -15,8 +15,8 @@ class InformasiKelurahan extends Model
         'judul',
         'deskripsi',
         'gambar',
-        'dibuat_oleh',
         'is_published',
+        'dibuat_oleh',
         'tanggal_publish'
     ];
 

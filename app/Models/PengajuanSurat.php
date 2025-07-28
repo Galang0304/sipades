@@ -52,6 +52,11 @@ class PengajuanSurat extends Model
         return $this->belongsTo(JenisSurat::class);
     }
 
+    public function jenisSurat()
+    {
+        return $this->belongsTo(JenisSurat::class, 'jenis_surat_id');
+    }
+
     public function penduduk()
     {
         return $this->belongsTo(Penduduk::class, 'nik', 'nik');

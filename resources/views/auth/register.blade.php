@@ -180,43 +180,6 @@
                     @enderror
                 </div>
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <input type="text" name="rw" class="form-control @error('rw') is-invalid @enderror" 
-                                   placeholder="RW" value="{{ old('rw') }}" required maxlength="3"
-                                   pattern="[0-9]{1,3}" title="RW harus berupa angka">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-home"></span>
-                                </div>
-                            </div>
-                            @error('rw')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="input-group mb-3">
-                            <input type="text" name="rt" class="form-control @error('rt') is-invalid @enderror" 
-                                   placeholder="RT" value="{{ old('rt') }}" required maxlength="3"
-                                   pattern="[0-9]{1,3}" title="RT harus berupa angka">
-                            <div class="input-group-append">
-                                <div class="input-group-text">
-                                    <span class="fas fa-building"></span>
-                                </div>
-                            </div>
-                            @error('rt')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-
                 <div class="input-group mb-3">
                     <input type="tel" name="no_tlp" class="form-control @error('no_tlp') is-invalid @enderror" 
                            placeholder="Nomor Telepon/HP" value="{{ old('no_tlp') }}" required

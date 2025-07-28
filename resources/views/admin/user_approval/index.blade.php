@@ -166,7 +166,7 @@
                     <i class="fas fa-user-check" style="font-size: 80px; color: #dee2e6; margin-bottom: 20px;"></i>
                     <h4 class="text-muted mb-3">Tidak Ada Pendaftaran Pending</h4>
                     <p class="text-muted">Semua pendaftaran telah diproses atau belum ada pendaftaran baru hari ini.</p>
-                    <a href="{{ route('admin.user-approval.index') }}" class="btn btn-primary">
+                    <a href="{{ route('user-approval.index') }}" class="btn btn-primary">
                         <i class="fas fa-sync-alt"></i> Refresh Halaman
                     </a>
                 </div>
@@ -211,7 +211,7 @@ $(function() {
                 });
 
                 // Submit AJAX request
-                const url = '{{ route("admin.user-approval.approve", ":id") }}'.replace(':id', userId);
+                const url = '{{ route("user-approval.approve", ":id") }}'.replace(':id', userId);
                 console.log('Sending request to:', url);
                 
                 $.ajax({
@@ -297,7 +297,7 @@ $(function() {
                 });
                 
                 $.ajax({
-                    url: '{{ route("admin.user-approval.reject", ":id") }}'.replace(':id', userId),
+                    url: '{{ route("user-approval.reject", ":id") }}'.replace(':id', userId),
                     type: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

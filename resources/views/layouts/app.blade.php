@@ -28,6 +28,18 @@
             background-color: #0d6efd !important;
         }
         
+        /* Navbar profile image styling */
+        .navbar .nav-link img.img-circle {
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* Dropdown profile image styling */
+        .user-header img.img-circle {
+            border: 3px solid rgba(255,255,255,0.3);
+            margin: 10px auto;
+        }
+        
         /* Logout button styling */
         .nav-sidebar .nav-link.text-danger:hover {
             background-color: #dc3545 !important;
@@ -123,15 +135,37 @@
             @auth
             <li class="nav-item dropdown user-menu">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                    <!-- Foto profil bulat kecil -->
+                    @if(auth()->user()->foto_profil)
+                        <img src="{{ asset('storage/' . auth()->user()->foto_profil) }}" 
+                             alt="Foto Profil" 
+                             class="img-circle"
+                             style="width: 25px; height: 25px; object-fit: cover; margin-right: 8px;">
+                    @else
+                        <img src="{{ asset('images/default-avatar.svg') }}" 
+                             alt="Default Avatar" 
+                             class="img-circle"
+                             style="width: 25px; height: 25px; object-fit: cover; margin-right: 8px;">
+                    @endif
                     <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                    <!-- User image -->
+                    <!-- User info -->
                     <li class="user-header bg-primary">
                         <p>
                             {{ auth()->user()->name }}
                             <small>{{ auth()->user()->role_name }}</small>
                         </p>
+                    </li>
+                    <!-- Menu Body-->
+                    <li class="user-body">
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <a href="{{ route('profile.edit') }}" class="btn btn-default btn-flat">
+                                    <i class="fas fa-user-edit"></i> Edit Profile
+                                </a>
+                            </div>
+                        </div>
                     </li>
                     <!-- Menu Footer-->
                     <li class="user-footer">
@@ -283,6 +317,14 @@
                             </li>
                             @endif
                         </ul>
+                    </li>
+
+                    <!-- Profile Menu untuk semua user -->
+                    <li class="nav-item">
+                        <a href="{{ route('profile.edit') }}" class="nav-link {{ request()->routeIs('profile.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-user-edit"></i>
+                            <p>Edit Profile</p>
+                        </a>
                     </li>
 
                     <!-- Logout Button -->

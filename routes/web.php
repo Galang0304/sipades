@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PendudukController;
 use App\Http\Controllers\PengajuanSuratController;
 use App\Http\Controllers\ValidasiSuratController;
+use App\Http\Controllers\ProfileController;
 
 use App\Http\Controllers\Auth\PasswordResetController;
 
@@ -73,6 +74,10 @@ Route::post('test-password-email', function(\Illuminate\Http\Request $request) {
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Profile routes untuk semua user
+    Route::get('/profile/edit', [\App\Http\Controllers\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/update', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
     
     // Profile routes
     Route::post('/profile/upload-kk', function(\Illuminate\Http\Request $request) {

@@ -142,10 +142,7 @@ MAIL_FROM_NAME="SIPADES System"
 ### 7. Compile Assets
 ```bash
 # Development
-npm run dev
 
-# Production
-npm run build
 ```
 
 ### 8. Run Application

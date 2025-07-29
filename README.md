@@ -368,9 +368,9 @@ Distributed under the MIT License. See `LICENSE` file for more information.
 
 ## 👨‍💻 Developer
 
-**Galang Saputra**
+**Andi Arya Galang**
 - GitHub: [@Galang0304](https://github.com/Galang0304)
-- Email: galang@example.com
+- Email: andiariegalang@gmail.com
 
 ## 🙏 Acknowledgments
 

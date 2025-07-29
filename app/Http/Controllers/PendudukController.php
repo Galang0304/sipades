@@ -176,4 +176,11 @@ class PendudukController extends Controller
             return response()->json(['success' => false, 'message' => 'Gagal menghapus data. Data mungkin masih digunakan.']);
         }
     }
+
+    public function print()
+    {
+        $penduduk = Penduduk::orderBy('nama_lengkap', 'asc')->get();
+        
+        return view('penduduk.cetak', compact('penduduk'));
+    }
 }

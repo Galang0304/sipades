@@ -125,10 +125,10 @@ Route::middleware(['auth'])->group(function () {
         
         // Informasi Routes (accessible by admin and petugas only)
         Route::resource('informasi', \App\Http\Controllers\InformasiController::class);
-        
-        // Public informasi route for all users
-        Route::get('informasi-public', [\App\Http\Controllers\InformasiController::class, 'publicView'])->name('informasi.public');
     });
+
+    // Public informasi route for all authenticated users
+    Route::get('informasi-public', [\App\Http\Controllers\InformasiController::class, 'publicView'])->name('informasi.public');
 
     // Admin only routes  
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -149,6 +149,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         // Penduduk Management (temporarily allow all authenticated users)
+        Route::get('penduduk/print', [PendudukController::class, 'print'])->name('penduduk.print');
         Route::resource('penduduk', PendudukController::class);
         Route::get('penduduk-data', [PendudukController::class, 'data'])->name('penduduk.data');
 

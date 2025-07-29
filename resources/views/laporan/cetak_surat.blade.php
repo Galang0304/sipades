@@ -39,27 +39,6 @@
         .info td {
             padding: 3px 0;
         }
-        .statistik {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .stat-box {
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 5px;
-            min-width: 120px;
-        }
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #28a745;
-        }
-        .stat-label {
-            font-size: 11px;
-            color: #666;
-        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -90,12 +69,36 @@
         .badge-warning { background-color: #ffc107; color: #000; }
         .badge-success { background-color: #28a745; }
         .badge-danger { background-color: #dc3545; }
+        .barcode-signature {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .barcode-signature img {
+            width: 80px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .signature-space {
+            height: 60px;
+            border: 1px dashed #ccc;
+            width: 80px;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: #999;
+        }
         .footer {
-            margin-top: 40px;
-            text-align: right;
+            margin-top: 30px;
+            text-align: center;
+            width: 250px;
+            margin-left: auto;
         }
         .footer p {
-            margin: 5px 0;
+            margin: 3px 0;
+            font-size: 11px;
         }
         @media print {
             body { margin: 0; }
@@ -135,25 +138,6 @@
                 <td>{{ $total_pengajuan }} pengajuan</td>
             </tr>
         </table>
-    </div>
-
-    <div class="statistik">
-        <div class="stat-box">
-            <div class="stat-number">{{ $total_pengajuan }}</div>
-            <div class="stat-label">Total Pengajuan</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-number">{{ $pengajuan_pending }}</div>
-            <div class="stat-label">Pending</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-number">{{ $pengajuan_disetujui }}</div>
-            <div class="stat-label">Disetujui</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-number">{{ $pengajuan_ditolak }}</div>
-            <div class="stat-label">Ditolak</div>
-        </div>
     </div>
 
     <table>
@@ -208,8 +192,21 @@
     </table>
 
     <div class="footer">
-        <p><strong>{{ auth()->user()->name }}</strong></p>
-        <p>{{ auth()->user()->getRoleNames()->first() ?? 'Petugas' }}</p>
+        <p>Kuin Selatan, {{ now()->format('d F Y') }}</p>
+        <p><strong>a/n LURAH KUIN SELATAN</strong></p>
+        
+        <!-- Barcode Tanda Tangan -->
+        <div class="barcode-signature">
+            @if(file_exists(public_path('assets/img/barcode-ttd/default-barcode.png')))
+                <img src="{{ asset('assets/img/barcode-ttd/default-barcode.png') }}" alt="Tanda Tangan Digital">
+            @else
+                {{-- Fallback jika barcode tidak ada --}}
+                <div class="signature-space">Tanda Tangan & Stempel</div>
+            @endif
+        </div>
+        
+        <p><strong>({{ auth()->user()->name ?? 'Mujiono S. Pd' }})</strong></p>
+        <p>{{ auth()->user()->getRoleNames()->first() ?? 'Lurah' }}</p>
     </div>
 
     <script>

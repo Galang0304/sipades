@@ -45,7 +45,7 @@ class InformasiKelurahan extends Model
     // Accessors
     public function getGambarUrlAttribute()
     {
-        return $this->gambar ? asset('storage/informasi/' . $this->gambar) : null;
+        return $this->gambar ? asset('storage/' . $this->gambar) : null;
     }
 
     public function getFormattedTanggalPublishAttribute()

@@ -324,6 +324,14 @@
                         </ul>
                     </li>
 
+                    <!-- Informasi Public - untuk semua role -->
+                    <li class="nav-item">
+                        <a href="{{ route('informasi.public') }}" class="nav-link {{ request()->routeIs('informasi.public') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-newspaper"></i>
+                            <p>Informasi Public</p>
+                        </a>
+                    </li>
+
                     @hasrole(['admin', 'petugas'])
                     <!-- Kelola Informasi -->
                     <li class="nav-item">

@@ -135,11 +135,18 @@ class LaporanPendudukController extends Controller
         $total_laki = $penduduk->where('jenis_kelamin', 'Laki-laki')->count();
         $total_perempuan = $penduduk->where('jenis_kelamin', 'Perempuan')->count();
 
+        // Get Lurah data for signature
+        $lurah = User::role('lurah')->first();
+        $lurah_name = $lurah ? $lurah->name : 'LURAH/KEPALA DESA';
+        $lurah_nip = $lurah ? ($lurah->nip ?? '199X XXXX XXXX XXX XXX') : '199X XXXX XXXX XXX XXX';
+
         return view('laporan.cetak_penduduk', compact(
             'penduduk', 
             'total_penduduk', 
             'total_laki', 
-            'total_perempuan'
+            'total_perempuan',
+            'lurah_name',
+            'lurah_nip'
         ));
     }
 }

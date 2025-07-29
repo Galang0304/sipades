@@ -17,13 +17,7 @@ class LaporanSuratController extends Controller
 
     public function index(Request $request)
     {
-        $query = PengajuanSurat::with([
-            'user:id,name,nik', 
-            'jenisSurat:id,nama_surat',
-            'petugas:id,name',
-            'lurah:id,name',
-            'diproses_user:id,name'
-        ]);
+        $query = PengajuanSurat::with(['user', 'jenisSurat']);
 
         // Filter berdasarkan tanggal
         if ($request->filled('tanggal_mulai')) {
@@ -62,7 +56,7 @@ class LaporanSuratController extends Controller
         $pengajuan_ditolak = $pengajuan->whereIn('status', ['rejected', 'Ditolak', 'ditolak'])->count();
 
         // Jenis Surat untuk filter
-        $jenisSurat = \App\Models\JenisSurat::select('id', 'nama_surat')->where('is_active', true)->get();
+        $jenisSurat = \App\Models\JenisSurat::all();
 
         return view('laporan.surat', compact(
             'pengajuan', 
@@ -76,13 +70,7 @@ class LaporanSuratController extends Controller
 
     public function cetak(Request $request)
     {
-        $query = PengajuanSurat::with([
-            'user:id,name,nik', 
-            'jenisSurat:id,nama_surat',
-            'petugas:id,name',
-            'lurah:id,name',
-            'diproses_user:id,name'
-        ]);
+        $query = PengajuanSurat::with(['user', 'jenisSurat']);
 
         // Filter berdasarkan tanggal
         if ($request->filled('tanggal_mulai')) {

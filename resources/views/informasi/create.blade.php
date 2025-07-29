@@ -35,10 +35,10 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="deskripsi">Konten Informasi <span class="text-danger">*</span></label>
-                                <textarea class="form-control @error('deskripsi') is-invalid @enderror" 
-                                          id="deskripsi" name="deskripsi" rows="8" required>{{ old('deskripsi') }}</textarea>
-                                @error('deskripsi')
+                                <label for="konten">Konten Informasi <span class="text-danger">*</span></label>
+                                <textarea class="form-control @error('konten') is-invalid @enderror" 
+                                          id="konten" name="konten" rows="8" required>{{ old('konten') }}</textarea>
+                                @error('konten')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
                             </div>

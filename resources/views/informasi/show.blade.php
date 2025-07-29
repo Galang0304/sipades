@@ -90,7 +90,7 @@
                     </div>
                     <div class="card-body">
                         @php
-                            $informasiLain = \App\Models\InformasiKelurahan::where('is_active', true)
+                            $informasiLain = \App\Models\InformasiKelurahan::where('is_published', true)
                                                                         ->where('id', '!=', $informasi->id)
                                                                         ->orderBy('created_at', 'desc')
                                                                         ->limit(5)

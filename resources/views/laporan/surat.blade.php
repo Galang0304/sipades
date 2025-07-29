@@ -162,14 +162,11 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th class="text-center">Tanggal Pengajuan</th>
+                                    <th class="text-center">Tanggal</th>
                                     <th class="text-center">NIK</th>
-                                    <th>Nama Pemohon</th>
+                                    <th>Nama</th>
                                     <th class="text-center">Jenis Surat</th>
-                                    <th>Keperluan</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">Tanggal Diproses</th>
-                                    <th>Diproses Oleh</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -177,84 +174,36 @@
                                 @forelse($pengajuan as $index => $item)
                                 <tr>
                                     <td class="text-center">{{ $index + 1 }}</td>
-                                    <td class="text-center">{{ $item->created_at->format('d/m/Y H:i') }}</td>
-                                    <td class="text-center font-monospace">
-                                        {{ $item->user->nik ?? $item->nik ?? 'NIK tidak tersedia' }}
-                                    </td>
-                                    <td class="font-weight-medium">
-                                        {{ $item->user->name ?? $item->nama ?? 'Nama tidak tersedia' }}
+                                    <td class="text-center">
+                                        <span class="text-muted small">{{ $item->created_at->format('d/m/Y') }}</span><br>
+                                        <span class="text-primary font-weight-bold small">{{ $item->created_at->format('H:i') }}</span>
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge badge-info">
-                                            @if(isset($item->jenisSurat) && $item->jenisSurat)
-                                                {{ $item->jenisSurat->nama_surat }}
-                                            @elseif(isset($item->jenis_surat_id))
-                                                @php
-                                                    $jenisSuratData = \App\Models\JenisSurat::find($item->jenis_surat_id);
-                                                @endphp
-                                                {{ $jenisSuratData ? $jenisSuratData->nama_surat : 'ID: ' . $item->jenis_surat_id . ' tidak ditemukan' }}
-                                            @else
-                                                Tidak ada jenis surat
-                                            @endif
+                                        <span class="font-monospace">{{ $item->user->nik ?? $item->nik ?? '-' }}</span>
+                                    </td>
+                                    <td class="font-weight-medium">{{ $item->user->name ?? $item->nama ?? '-' }}</td>
+                                    <td class="text-center">
+                                        <span class="badge badge-info badge-pill px-3 py-2">
+                                            {{ $item->jenisSurat->nama_surat ?? $item->jenis_surat ?? 'Tidak Diketahui' }}
                                         </span>
                                     </td>
-                                    <td>
-                                        <div class="text-truncate" style="max-width: 200px;" title="{{ $item->keperluan ?? 'Tidak ada keperluan yang disebutkan' }}">
-                                            {{ $item->keperluan ?? 'Tidak disebutkan' }}
-                                        </div>
-                                    </td>
                                     <td class="text-center">
-                                        @if($item->status == 'pending' || $item->status == 'menunggu' || $item->status == 'Menunggu')
-                                            <span class="badge badge-warning">
+                                        @if($item->status == 'pending' || $item->status == 'menunggu')
+                                            <span class="badge badge-warning badge-pill px-3 py-2">
                                                 <i class="fas fa-clock mr-1"></i>Menunggu
                                             </span>
-                                        @elseif($item->status == 'diproses' || $item->status == 'Diproses')
-                                            <span class="badge badge-info">
-                                                <i class="fas fa-cog mr-1"></i>Diproses
-                                            </span>
-                                        @elseif($item->status == 'approved' || $item->status == 'disetujui' || $item->status == 'selesai' || $item->status == 'Selesai')
-                                            <span class="badge badge-success">
+                                        @elseif($item->status == 'approved' || $item->status == 'disetujui' || $item->status == 'selesai')
+                                            <span class="badge badge-success badge-pill px-3 py-2">
                                                 <i class="fas fa-check mr-1"></i>Selesai
                                             </span>
-                                        @elseif($item->status == 'rejected' || $item->status == 'ditolak' || $item->status == 'Ditolak')
-                                            <span class="badge badge-danger">
+                                        @elseif($item->status == 'rejected' || $item->status == 'ditolak')
+                                            <span class="badge badge-danger badge-pill px-3 py-2">
                                                 <i class="fas fa-times mr-1"></i>Ditolak
                                             </span>
                                         @else
-                                            <span class="badge badge-secondary">
+                                            <span class="badge badge-secondary badge-pill px-3 py-2">
                                                 <i class="fas fa-question mr-1"></i>{{ ucfirst($item->status) }}
                                             </span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if($item->tanggal_diproses_lurah)
-                                            <small class="text-muted">{{ \Carbon\Carbon::parse($item->tanggal_diproses_lurah)->format('d/m/Y H:i') }}</small>
-                                        @elseif($item->tanggal_diproses_petugas)
-                                            <small class="text-muted">{{ \Carbon\Carbon::parse($item->tanggal_diproses_petugas)->format('d/m/Y H:i') }}</small>
-                                        @elseif($item->tanggal_diproses)
-                                            <small class="text-muted">{{ \Carbon\Carbon::parse($item->tanggal_diproses)->format('d/m/Y H:i') }}</small>
-                                        @else
-                                            <span class="text-muted">-</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if($item->lurah)
-                                            <small class="text-success">
-                                                <i class="fas fa-user-tie mr-1"></i>
-                                                {{ $item->lurah->name ?? 'Lurah' }}
-                                            </small>
-                                        @elseif($item->petugas)
-                                            <small class="text-info">
-                                                <i class="fas fa-user mr-1"></i>
-                                                {{ $item->petugas->name ?? 'Petugas' }}
-                                            </small>
-                                        @elseif($item->diproses_user)
-                                            <small class="text-primary">
-                                                <i class="fas fa-user mr-1"></i>
-                                                {{ $item->diproses_user->name ?? 'Admin' }}
-                                            </small>
-                                        @else
-                                            <span class="text-muted">-</span>
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -266,7 +215,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="10" class="text-center text-muted py-4">
+                                    <td colspan="7" class="text-center text-muted py-4">
                                         <i class="fas fa-inbox fa-3x mb-3"></i>
                                         <br>
                                         <strong>Tidak ada data pengajuan surat</strong>
@@ -331,81 +280,26 @@ body.sidebar-mini .content-wrapper {
     margin-left: 0 !important;
 }
 
-/* Table enhancements */
-.table-responsive {
-    border-radius: 8px;
-    overflow: hidden;
+/* Button styling */
+.btn-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border-color: #28a745;
+    border-radius: 6px;
+    transition: all 0.3s ease;
 }
 
-.table {
-    margin-bottom: 0;
-    font-size: 13px;
+.btn-success:hover {
+    background: linear-gradient(135deg, #218838, #1e7e34);
+    border-color: #1e7e34;
+    transform: translateY(-1px);
 }
 
-.table th {
-    background-color: #f8f9fa;
-    border-top: none;
-    font-weight: 600;
-    vertical-align: middle;
-    white-space: nowrap;
+.btn-group .btn {
+    margin-right: 5px;
 }
 
-.table td {
-    vertical-align: middle;
-    padding: 8px 12px;
-}
-
-.table tbody tr:hover {
-    background-color: rgba(40, 167, 69, 0.05);
-}
-
-.text-truncate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.badge {
-    font-size: 11px;
-    padding: 4px 8px;
-}
-
-/* DataTables customization */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    border-radius: 4px;
-    margin: 0 2px;
-}
-
-.dataTables_wrapper .dataTables_info {
-    font-size: 12px;
-    color: #6c757d;
-}
-
-.dataTables_wrapper .dataTables_length select {
-    border-radius: 4px;
-    border: 1px solid #ced4da;
-}
-
-.dataTables_wrapper .dataTables_filter input {
-    border-radius: 4px;
-    border: 1px solid #ced4da;
-    padding: 4px 8px;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 768px) {
-    .table-responsive {
-        font-size: 11px;
-    }
-    
-    .card-body {
-        padding: 10px;
-    }
-    
-    .btn-sm {
-        font-size: 10px;
-        padding: 2px 6px;
-    }
+.btn-group .btn:last-child {
+    margin-right: 0;
 }
 
 /* Small box enhancements */
@@ -470,45 +364,73 @@ body.sidebar-mini .content-wrapper {
     width: 100%;
     border-radius: 0 0 10px 10px;
     margin: 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 #laporanSuratTable {
     width: 100% !important;
     font-size: 14px;
     margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .table {
     margin-bottom: 0;
     width: 100%;
+    background-color: white;
 }
 
 .table thead th {
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
     border-bottom: 2px solid #dee2e6;
     font-weight: 600;
     color: #495057;
     vertical-align: middle;
     white-space: nowrap;
-    padding: 8px 6px;
+    padding: 12px 8px;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f1f3f4;
 }
 
 .table tbody tr:hover {
     background-color: #f8f9fa;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .table td {
     vertical-align: middle;
-    padding: 8px 6px;
+    padding: 12px 8px;
+    border-bottom: 1px solid #f1f3f4;
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
 }
 
 .font-monospace {
     font-family: 'Courier New', monospace;
     font-size: 12px;
+    background-color: #f8f9fa;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 .font-weight-medium {
     font-weight: 500;
+    color: #2c3e50;
 }
 
 /* DataTables styling */
@@ -570,9 +492,54 @@ body.sidebar-mini .content-wrapper {
 
 /* Badge enhancements */
 .badge {
-    font-size: 11px;
-    padding: 4px 8px;
-    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.badge-pill {
+    border-radius: 25px;
+}
+
+.badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.badge-warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: #212529;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.badge-success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.badge-danger {
+    background: linear-gradient(135deg, #dc3545, #e83e8c);
+    color: white;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.badge-secondary {
+    background: linear-gradient(135deg, #6c757d, #495057);
+    color: white;
+    border: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+.badge-info {
+    background: linear-gradient(135deg, #17a2b8, #007bff);
+    color: white;
+    border: 1px solid rgba(23, 162, 184, 0.3);
+    font-weight: 500;
 }
 
 /* Fix for missing elements and layout issues */
@@ -692,8 +659,6 @@ $(document).ready(function() {
         "scrollX": true,
         "pageLength": 25,
         "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Semua"]],
-        "processing": true,
-        "deferRender": true,
         "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
                '<"row"<"col-sm-12"tr>>' +
                '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
@@ -703,28 +668,23 @@ $(document).ready(function() {
             "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
             "infoEmpty": "Menampilkan 0 sampai 0 dari 0 data",
             "infoFiltered": "(difilter dari _MAX_ total data)",
-            "processing": "Memproses data...",
-            "loadingRecords": "Memuat data...",
             "paginate": {
                 "first": "Pertama",
                 "last": "Terakhir",
                 "next": "Selanjutnya",
                 "previous": "Sebelumnya"
             },
-            "emptyTable": "Tidak ada data pengajuan surat yang tersedia",
-            "zeroRecords": "Tidak ditemukan data yang sesuai dengan pencarian Anda"
+            "emptyTable": "Tidak ada data yang tersedia",
+            "zeroRecords": "Tidak ditemukan data yang sesuai"
         },
         "columnDefs": [
-            { "width": "4%", "targets": 0, "className": "text-center" },  // No
-            { "width": "12%", "targets": 1, "className": "text-center" }, // Tanggal Pengajuan
-            { "width": "10%", "targets": 2, "className": "text-center" }, // NIK
-            { "width": "15%", "targets": 3 },                            // Nama Pemohon
-            { "width": "12%", "targets": 4, "className": "text-center" }, // Jenis Surat
-            { "width": "20%", "targets": 5 },                            // Keperluan
-            { "width": "10%", "targets": 6, "className": "text-center" }, // Status
-            { "width": "10%", "targets": 7, "className": "text-center" }, // Tanggal Diproses
-            { "width": "12%", "targets": 8 },                            // Diproses Oleh
-            { "width": "7%", "targets": 9, "className": "text-center" }   // Aksi
+            { "width": "5%", "targets": 0, "className": "text-center" },
+            { "width": "15%", "targets": 1, "className": "text-center" },
+            { "width": "15%", "targets": 2, "className": "text-center" },
+            { "width": "20%", "targets": 3 },
+            { "width": "20%", "targets": 4, "className": "text-center" },
+            { "width": "15%", "targets": 5, "className": "text-center" },
+            { "width": "10%", "targets": 6, "className": "text-center" }
         ],
         "order": [[ 1, "desc" ]],
         "initComplete": function() {

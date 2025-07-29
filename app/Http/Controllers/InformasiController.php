@@ -33,7 +33,7 @@ class InformasiController extends Controller
     // Method untuk warga (view-only)
     public function publicView()
     {
-        $informasi = InformasiKelurahan::where('is_active', true)
+        $informasi = InformasiKelurahan::where('is_published', true)
                                      ->orderBy('created_at', 'desc')
                                      ->get();
         
@@ -54,17 +54,28 @@ class InformasiController extends Controller
         
         $request->validate([
             'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
+            'konten' => 'required|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_published' => 'boolean'
         ]);
         
-        InformasiKelurahan::create([
+        $createData = [
             'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
+            'deskripsi' => $request->konten,
             'is_published' => $request->has('is_published'),
             'dibuat_oleh' => auth()->id(),
             'tanggal_publish' => now()
-        ]);
+        ];
+        
+        // Handle file upload
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9\-\.]/', '', $file->getClientOriginalName());
+            $path = $file->storeAs('informasi', $fileName, 'public');
+            $createData['gambar'] = $path;
+        }
+        
+        InformasiKelurahan::create($createData);
         
         return redirect()->route('informasi.index')
                         ->with('success', 'Informasi berhasil ditambahkan!');
@@ -101,17 +112,35 @@ class InformasiController extends Controller
         
         $request->validate([
             'judul' => 'required|string|max:255',
-            'deskripsi' => 'required|string',
+            'konten' => 'required|string',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_published' => 'boolean'
         ]);
         
         $informasi = InformasiKelurahan::findOrFail($id);
-        $informasi->update([
+        
+        $updateData = [
             'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
+            'deskripsi' => $request->konten,
             'is_published' => $request->has('is_published'),
             'tanggal_publish' => now()
-        ]);
+        ];
+        
+        // Handle file upload
+        if ($request->hasFile('gambar')) {
+            // Delete old image if exists
+            if ($informasi->gambar && \Storage::disk('public')->exists($informasi->gambar)) {
+                \Storage::disk('public')->delete($informasi->gambar);
+            }
+            
+            // Store new image
+            $file = $request->file('gambar');
+            $fileName = time() . '_' . preg_replace('/[^A-Za-z0-9\-\.]/', '', $file->getClientOriginalName());
+            $path = $file->storeAs('informasi', $fileName, 'public');
+            $updateData['gambar'] = $path;
+        }
+        
+        $informasi->update($updateData);
         
         return redirect()->route('informasi.index')
                         ->with('success', 'Informasi berhasil diupdate!');

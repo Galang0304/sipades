@@ -1,66 +1,408 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# SIPADES - Sistem Informasi Pelayanan Administrasi Desa
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+![Laravel](https://img.shields.io/badge/Laravel-9.x-red.svg)
+![PHP](https://img.shields.io/badge/PHP-8.0%2B-blue.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-orange.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-## About Laravel
+## 📋 Deskripsi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+SIPADES (Sistem Informasi Pelayanan Administrasi Desa) adalah aplikasi web yang dirancang untuk memudahkan pengelolaan administrasi desa dan pelayanan kepada masyarakat. Sistem ini menggunakan teknologi Laravel 9 dengan tema KUINSEL yang user-friendly.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Fitur Utama
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🔐 Manajemen User & Role
+- **Multi-Role System**: Admin, Petugas, Lurah, dan Penduduk
+- **User Approval**: Sistem persetujuan pendaftaran penduduk baru
+- **Profile Management**: Pengelolaan profil lengkap dengan foto dan dokumen
 
-## Learning Laravel
+### 📄 Pelayanan Surat
+- **Pengajuan Surat Online**: Penduduk dapat mengajukan berbagai jenis surat
+- **Two-Stage Approval**: Approval bertingkat (Petugas → Lurah)
+- **Template Surat**: Template otomatis untuk berbagai jenis surat
+- **Status Tracking**: Pelacakan status pengajuan real-time
+- **Notifikasi Email**: Pemberitahuan otomatis via email
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 👥 Manajemen Penduduk
+- **Data Penduduk Lengkap**: KTP, KK, alamat, dan data demografis
+- **Import/Export Data**: Fitur impor dan ekspor data penduduk
+- **Barcode System**: Sistem barcode untuk identifikasi unik
+- **RT/RW Management**: Pengelolaan data berdasarkan RT/RW
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 📊 Laporan & Analytics
+- **Laporan Pengajuan Surat**: Laporan lengkap dengan filter dan statistik
+- **Laporan Penduduk**: Analisis demografis dan statistik penduduk
+- **Export PDF**: Cetak laporan dalam format PDF
+- **Dashboard Analytics**: Grafik dan statistik real-time
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### ℹ️ Informasi Kelurahan
+- **Profil Kelurahan**: Informasi lengkap kelurahan/desa
+- **Visi Misi**: Pengelolaan visi misi dan struktur organisasi
+- **Galeri**: Dokumentasi kegiatan dan fasilitas
 
-## Laravel Sponsors
+## 🛠️ Teknologi yang Digunakan
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- **Backend**: Laravel 9.x
+- **Frontend**: AdminLTE 3, Bootstrap 4, jQuery
+- **Database**: MySQL 8.0+
+- **Authentication**: Laravel Sanctum
+- **Authorization**: Spatie Laravel Permission
+- **Email**: Laravel Mail dengan SMTP
+- **PDF**: DomPDF
+- **DataTables**: Server-side processing
+- **Icons**: FontAwesome 5
 
-### Premium Partners
+## 📋 Persyaratan Sistem
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Minimum Requirements
+- PHP >= 8.0
+- MySQL >= 8.0 atau MariaDB >= 10.3
+- Apache/Nginx Web Server
+- Composer >= 2.0
+- Node.js >= 14.x (untuk asset compilation)
 
-## Contributing
+### Recommended Requirements
+- PHP 8.1+
+- MySQL 8.0+
+- 2GB RAM minimum
+- SSL Certificate (untuk production)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 🚀 Instalasi & Setup
 
-## Code of Conduct
+### 1. Clone Repository
+```bash
+git clone https://github.com/Galang0304/sipades.git
+cd sipades
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 2. Install Dependencies
+```bash
+# Install PHP dependencies
+composer install
 
-## Security Vulnerabilities
+# Install Node.js dependencies
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 3. Environment Configuration
+```bash
+# Copy environment file
+cp .env.example .env
 
-## License
+# Generate application key
+php artisan key:generate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 4. Database Setup
+Edit file `.env` dengan konfigurasi database Anda:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=sipades_db
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+Jalankan migrasi dan seeder:
+```bash
+# Create database (optional)
+mysql -u root -p -e "CREATE DATABASE sipades_db"
+
+# Run migrations
+php artisan migrate
+
+# Run seeders
+php artisan db:seed
+```
+
+### 5. Storage Configuration
+```bash
+# Create storage symlink
+php artisan storage:link
+
+# Set permissions (Linux/Mac)
+chmod -R 775 storage
+chmod -R 775 bootstrap/cache
+```
+
+### 6. Email Configuration (Optional)
+Edit konfigurasi email di `.env`:
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your-email@gmail.com
+MAIL_PASSWORD=your-app-password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your-email@gmail.com
+MAIL_FROM_NAME="SIPADES System"
+```
+
+### 7. Compile Assets
+```bash
+# Development
+npm run dev
+
+# Production
+npm run build
+```
+
+### 8. Run Application
+```bash
+# Development server
+php artisan serve
+
+# Access application at: http://localhost:8000
+```
+
+## 👥 Default Users
+
+Setelah menjalankan seeder, Anda dapat login dengan akun berikut:
+
+| Role | Username | Password | Deskripsi |
+|------|----------|----------|-----------|
+| Admin | admin@sipades.com | password | Administrator sistem |
+| Petugas | petugas@sipades.com | password | Petugas kelurahan |
+| Lurah | lurah@sipades.com | password | Kepala lurah/desa |
+
+## 📱 Penggunaan Aplikasi
+
+### Untuk Administrator
+1. **Login** ke sistem menggunakan akun admin
+2. **Kelola User**: Approve pendaftaran penduduk baru
+3. **Manajemen Data**: Input dan update data penduduk
+4. **Setup Jenis Surat**: Konfigurasi template surat
+5. **Monitor Laporan**: Lihat statistik dan analytics
+
+### Untuk Petugas
+1. **Proses Pengajuan**: Review dan proses pengajuan surat tahap 1
+2. **Manajemen Penduduk**: Input dan update data penduduk
+3. **Generate Laporan**: Buat laporan berdasarkan filter
+
+### Untuk Lurah
+1. **Final Approval**: Approve final pengajuan surat
+2. **Review Laporan**: Monitor semua aktivitas
+3. **Kelola Informasi**: Update informasi kelurahan
+
+### Untuk Penduduk
+1. **Registrasi**: Daftar akun baru (perlu approval)
+2. **Ajukan Surat**: Submit pengajuan surat online
+3. **Track Status**: Pantau progress pengajuan
+4. **Download Surat**: Download surat yang sudah selesai
+
+## 🗂️ Struktur Database
+
+### Tabel Utama
+- `users` - Data pengguna sistem
+- `penduduk` - Data penduduk desa
+- `jenis_surats` - Master jenis surat
+- `pengajuan_surats` - Data pengajuan surat
+- `informasi_kelurahan` - Informasi profil desa
+
+### Relasi Database
+```
+users (1) → (n) pengajuan_surats
+penduduk (1) → (1) users
+jenis_surats (1) → (n) pengajuan_surats
+```
+
+## 🔒 Keamanan
+
+### Authentication & Authorization
+- Role-based access control dengan Spatie Permission
+- Password hashing menggunakan bcrypt
+- CSRF protection pada semua form
+- Rate limiting untuk login attempts
+
+### Data Protection
+- SQL injection prevention dengan Eloquent ORM
+- XSS protection dengan Blade templating
+- File upload validation dan sanitization
+- Secure session management
+
+## 📊 Monitoring & Logging
+
+### Error Handling
+- Custom error pages (404, 500)
+- Application logging dengan Laravel Log
+- Email notification untuk critical errors
+
+### Performance
+- Database query optimization
+- Eager loading untuk relasi
+- Caching untuk data statis
+- Asset minification dan compression
+
+## 🚀 Deployment ke Production
+
+### 1. Server Requirements
+```bash
+# Install required packages (Ubuntu/Debian)
+sudo apt update
+sudo apt install apache2 mysql-server php8.1 php8.1-mysql php8.1-zip php8.1-gd php8.1-curl php8.1-xml composer
+```
+
+### 2. Apache Configuration
+```apache
+<VirtualHost *:80>
+    ServerName your-domain.com
+    DocumentRoot /var/www/sipades/public
+    
+    <Directory /var/www/sipades/public>
+        AllowOverride All
+        Require all granted
+    </Directory>
+    
+    ErrorLog ${APACHE_LOG_DIR}/sipades_error.log
+    CustomLog ${APACHE_LOG_DIR}/sipades_access.log combined
+</VirtualHost>
+```
+
+### 3. Production Environment
+```env
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-domain.com
+
+# Use production database
+DB_CONNECTION=mysql
+DB_HOST=your-db-host
+DB_DATABASE=sipades_production
+```
+
+### 4. Optimization
+```bash
+# Cache configuration
+php artisan config:cache
+
+# Cache routes
+php artisan route:cache
+
+# Cache views
+php artisan view:cache
+
+# Optimize autoloader
+composer install --optimize-autoloader --no-dev
+```
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+#### 1. Permission Error
+```bash
+sudo chown -R www-data:www-data /var/www/sipades
+sudo chmod -R 755 /var/www/sipades/storage
+```
+
+#### 2. Database Connection Error
+- Periksa konfigurasi `.env`
+- Pastikan MySQL service berjalan
+- Verifikasi username/password database
+
+#### 3. Email Not Sending
+- Periksa konfigurasi SMTP di `.env`
+- Pastikan port tidak diblokir firewall
+- Test dengan `php artisan tinker`
+
+#### 4. Asset Not Loading
+```bash
+# Recompile assets
+npm run build
+
+# Clear cache
+php artisan cache:clear
+php artisan view:clear
+```
+
+## 🔄 Update & Maintenance
+
+### Regular Maintenance
+```bash
+# Update dependencies
+composer update
+npm update
+
+# Run migrations
+php artisan migrate
+
+# Clear caches
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+```
+
+### Backup Database
+```bash
+# Create backup
+mysqldump -u username -p sipades_db > backup_$(date +%Y%m%d).sql
+
+# Restore backup
+mysql -u username -p sipades_db < backup_20240129.sql
+```
+
+## 📞 Support & Kontribusi
+
+### Support
+- **Email**: support@sipades.com
+- **Documentation**: [Wiki Page](https://github.com/Galang0304/sipades/wiki)
+- **Issues**: [GitHub Issues](https://github.com/Galang0304/sipades/issues)
+
+### Contributing
+1. Fork repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+### Development Guidelines
+- Follow PSR-12 coding standards
+- Write tests for new features
+- Update documentation
+- Use semantic versioning
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` file for more information.
+
+## 👨‍💻 Developer
+
+**Galang Saputra**
+- GitHub: [@Galang0304](https://github.com/Galang0304)
+- Email: galang@example.com
+
+## 🙏 Acknowledgments
+
+- [Laravel Framework](https://laravel.com/)
+- [AdminLTE](https://adminlte.io/)
+- [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission)
+- [DataTables](https://datatables.net/)
+- [FontAwesome](https://fontawesome.com/)
+
+---
+
+## 📈 Roadmap
+
+### Version 2.0 (Planned)
+- [ ] Mobile responsive PWA
+- [ ] API REST untuk mobile app
+- [ ] Integration dengan sistem kependudukan nasional
+- [ ] Digital signature untuk surat
+- [ ] Chat system untuk komunikasi
+- [ ] Advanced analytics dashboard
+
+### Version 1.1 (In Progress)
+- [x] Enhanced reporting system
+- [x] Improved UI/UX dengan KUINSEL theme
+- [x] Two-stage approval workflow
+- [x] Email notifications
+- [ ] Backup automation
+- [ ] Performance optimization
+
+---
+
+**Last Updated**: July 29, 2025  
+**Version**: 1.0.0  
+**PHP Version**: 8.1+  
+**Laravel Version**: 9.x

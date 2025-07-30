@@ -17,6 +17,10 @@ class InformasiKelurahan extends Model
         'gambar',
         'is_published',
         'dibuat_oleh',
+        'user_id',
+        'kategori',
+        'is_featured',
+        'views',
         'tanggal_publish'
     ];
 
@@ -29,6 +33,11 @@ class InformasiKelurahan extends Model
     public function pembuat()
     {
         return $this->belongsTo(User::class, 'dibuat_oleh');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // Scopes

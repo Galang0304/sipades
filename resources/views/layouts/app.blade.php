@@ -406,6 +406,12 @@
                                     <p>Laporan Penduduk</p>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('laporan.informasi') }}" class="nav-link {{ request()->routeIs('laporan.informasi') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Laporan Informasi</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     @endhasrole

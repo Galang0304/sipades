@@ -122,6 +122,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('laporan/surat/cetak', [\App\Http\Controllers\LaporanSuratController::class, 'cetak'])->name('laporan.surat.cetak');
         Route::get('laporan/penduduk', [\App\Http\Controllers\LaporanPendudukController::class, 'index'])->name('laporan.penduduk');
         Route::get('laporan/penduduk/cetak', [\App\Http\Controllers\LaporanPendudukController::class, 'cetak'])->name('laporan.penduduk.cetak');
+        Route::get('laporan/informasi', [\App\Http\Controllers\LaporanInformasiController::class, 'index'])->name('laporan.informasi');
         
         // Informasi Routes (accessible by admin and petugas only)
         Route::resource('informasi', \App\Http\Controllers\InformasiController::class);

@@ -61,6 +61,13 @@ class RegisterController extends Controller
             'no_tlp' => ['required', 'string', 'max:15', 'regex:/^[0-9+\-\s]{10,15}$/'],
             'status_penduduk' => ['required', 'in:pindahan,penduduk_tetap,pendatang'],
             'foto_kk' => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'tempat_lahir' => ['required', 'string', 'max:255'],
+            'tanggal_lahir' => ['required', 'date', 'before:today'],
+            'jenis_kelamin' => ['required', 'in:L,P'],
+            'agama' => ['required', 'in:Islam,Kristen,Katolik,Hindu,Buddha,Konghucu'],
+            'status_perkawinan' => ['required', 'in:Belum Kawin,Kawin,Cerai Hidup,Cerai Mati'],
+            'pekerjaan' => ['required', 'string', 'max:255'],
+            'kewarganegaraan' => ['required', 'in:WNI,WNA'],
         ]);
     }
     /**
@@ -82,15 +89,19 @@ class RegisterController extends Controller
                 \Log::info('Creating new penduduk record for NIK: ' . $data['nik']);
                 $penduduk = \App\Models\Penduduk::create([
                     'nik' => $data['nik'],
+                    'no_kk' => $data['no_kk'],
                     'nama_lengkap' => $data['name'],
                     'tempat_lahir' => $data['tempat_lahir'],
                     'tanggal_lahir' => $data['tanggal_lahir'],
                     'jenis_kelamin' => $data['jenis_kelamin'] === 'L' ? 'Laki-laki' : 'Perempuan',
-                    'alamat' => $data['alamat'] . ' RT/RW: ' . $data['rt'] . '/' . $data['rw'],
+                    'alamat' => $data['alamat'],
+                    'rt' => $data['rt'],
+                    'rw' => $data['rw'],
+                    'no_tlp' => $data['no_tlp'],
                     'agama' => $data['agama'],
                     'status_perkawinan' => $data['status_perkawinan'],
                     'pekerjaan' => $data['pekerjaan'],
-                    'status_penduduk' => 'Tetap'
+                    'status_penduduk' => $data['status_penduduk'] === 'penduduk_tetap' ? 'Tetap' : 'Sementara'
                 ]);
                 \Log::info('Penduduk created successfully with ID: ' . $penduduk->id);
             } else {

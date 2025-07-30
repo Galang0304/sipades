@@ -14,10 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::table('penduduk', function (Blueprint $table) {
-            // Tambahkan field yang diperlukan
-            $table->string('no_kk', 16)->nullable()->after('nik');
-            $table->string('no_tlp')->nullable()->after('rw');
-            $table->string('foto_kk')->nullable()->after('no_tlp');
+            // Add missing columns that don't exist yet
+            if (!Schema::hasColumn('penduduk', 'no_kk')) {
+                $table->string('no_kk', 16)->nullable()->after('nik');
+            }
+            if (!Schema::hasColumn('penduduk', 'no_tlp')) {
+                $table->string('no_tlp')->nullable()->after('rw');
+            }
+            if (!Schema::hasColumn('penduduk', 'foto_kk')) {
+                $table->string('foto_kk')->nullable()->after('no_tlp');
+            }
         });
     }
 

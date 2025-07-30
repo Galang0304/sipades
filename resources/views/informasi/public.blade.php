@@ -53,7 +53,7 @@
                             </p>
                             
                             <div class="mt-auto">
-                                <a href="{{ route('informasi.show', $item->id) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('informasi.public.show', $item->id) }}" class="btn btn-primary btn-sm">
                                     <i class="fas fa-eye"></i> Baca Selengkapnya
                                 </a>
                             </div>

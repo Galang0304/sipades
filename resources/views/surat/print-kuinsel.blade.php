@@ -239,6 +239,78 @@
         @elseif($kode == '470.1')
             <p>Yang bersangkutan sampai dengan dikeluarkannya surat keterangan ini <strong>BELUM PERNAH MENIKAH</strong> dan belum terikat dalam perkawinan dengan orang lain.</p>
             <p>Surat keterangan ini dibuat untuk keperluan: <strong>{{ $keperluan }}</strong>.</p>
+        @elseif($kode == '474')
+            {{-- Surat Keterangan Pindah --}}
+            <p>Yang bersangkutan di atas benar-benar merupakan penduduk Kelurahan Kuin Selatan yang akan pindah tempat tinggal.</p>
+            @if($data && isset($data['alamat_baru']))
+                <p><strong>Alamat Tujuan Pindah:</strong> {{ $data['alamat_baru'] }}</p>
+            @endif
+            @if($data && isset($data['jumlah_keluarga']))
+                <p><strong>Jumlah Keluarga yang Pindah:</strong> {{ $data['jumlah_keluarga'] }} orang</p>
+            @endif
+            <p>Surat keterangan ini dibuat untuk keperluan: <strong>{{ $keperluan }}</strong>.</p>
+        @elseif($kode == '474.3')
+            {{-- Surat Kematian --}}
+            <p>Yang bersangkutan di atas telah meninggal dunia dengan keterangan sebagai berikut:</p>
+            <table class="data-table">
+                @if($data && isset($data['hari_meninggal']))
+                    <tr>
+                        <td class="label">Hari Meninggal</td>
+                        <td class="separator">:</td>
+                        <td>{{ $data['hari_meninggal'] }}</td>
+                    </tr>
+                @endif
+                @if($data && isset($data['tanggal_meninggal']))
+                    <tr>
+                        <td class="label">Tanggal Meninggal</td>
+                        <td class="separator">:</td>
+                        <td>{{ \Carbon\Carbon::parse($data['tanggal_meninggal'])->format('d F Y') }}</td>
+                    </tr>
+                @endif
+                @if($data && isset($data['sebab_kematian']))
+                    <tr>
+                        <td class="label">Sebab Kematian</td>
+                        <td class="separator">:</td>
+                        <td>{{ $data['sebab_kematian'] }}</td>
+                    </tr>
+                @endif
+                @if($data && isset($data['alamat_meninggal']))
+                    <tr>
+                        <td class="label">Tempat Meninggal</td>
+                        <td class="separator">:</td>
+                        <td>{{ $data['alamat_meninggal'] }}</td>
+                    </tr>
+                @endif
+            </table>
+            <p>Surat keterangan ini dibuat untuk keperluan: <strong>{{ $keperluan }}</strong>.</p>
+        @elseif($kode == '503')
+            {{-- Surat Izin Usaha --}}
+            <p>Yang bersangkutan di atas bermaksud mengajukan permohonan izin usaha dengan keterangan sebagai berikut:</p>
+            <table class="data-table">
+                @if($data && isset($data['nama_usaha']))
+                    <tr>
+                        <td class="label">Nama Usaha</td>
+                        <td class="separator">:</td>
+                        <td>{{ $data['nama_usaha'] }}</td>
+                    </tr>
+                @endif
+                @if($data && isset($data['jenis_usaha']))
+                    <tr>
+                        <td class="label">Jenis Usaha</td>
+                        <td class="separator">:</td>
+                        <td>{{ $data['jenis_usaha'] }}</td>
+                    </tr>
+                @endif
+                @if($data && isset($data['alamat_usaha']))
+                    <tr>
+                        <td class="label">Alamat Usaha</td>
+                        <td class="separator">:</td>
+                        <td>{{ $data['alamat_usaha'] }}</td>
+                    </tr>
+                @endif
+            </table>
+            <p>Yang bersangkutan tersebut adalah warga yang baik dan tidak bermasalah serta layak diberikan izin usaha yang dimaksud.</p>
+            <p>Surat keterangan ini dibuat untuk keperluan: <strong>{{ $keperluan }}</strong>.</p>
         @else
             <p>{{ $keperluan }}</p>
         @endif

@@ -106,13 +106,9 @@
                         @enderror
                     </div>
 
-                    <div class="form-group">
-                        <label for="catatan">Catatan Tambahan</label>
-                        <textarea name="catatan" id="catatan" rows="3" class="form-control @error('catatan') is-invalid @enderror" 
-                                  placeholder="Catatan tambahan (opsional)">{{ old('catatan') }}</textarea>
-                        @error('catatan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <!-- Dynamic Form Fields Based on Surat Type -->
+                    <div id="dynamic-fields" class="mt-4">
+                        <!-- Fields will be populated via JavaScript -->
                     </div>
 
                     <div class="form-group">
@@ -244,24 +240,217 @@ $(document).ready(function() {
         }
     });
 
+    // Dynamic form fields based on jenis surat
+    $('#jenis_surat_id').on('change', function() {
+        const jenisId = $(this).val();
+        const jenisText = $(this).find('option:selected').text();
+        
+        if (jenisId) {
+            showDynamicFields(jenisText, jenisId);
+        } else {
+            $('#dynamic-fields').html('');
+        }
+    });
+
+    function showDynamicFields(jenisText, jenisId) {
+        let dynamicHTML = '';
+        
+        // Surat Kematian
+        if (jenisText.toLowerCase().includes('kematian')) {
+            dynamicHTML = `
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="fas fa-plus-circle"></i> Data Khusus Surat Kematian</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="hari_meninggal">Hari Meninggal <span class="text-danger">*</span></label>
+                                    <select name="hari_meninggal" id="hari_meninggal" class="form-control" required>
+                                        <option value="">-- Pilih Hari --</option>
+                                        <option value="Senin">Senin</option>
+                                        <option value="Selasa">Selasa</option>
+                                        <option value="Rabu">Rabu</option>
+                                        <option value="Kamis">Kamis</option>
+                                        <option value="Jumat">Jumat</option>
+                                        <option value="Sabtu">Sabtu</option>
+                                        <option value="Minggu">Minggu</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="tanggal_meninggal">Tanggal Meninggal <span class="text-danger">*</span></label>
+                                    <input type="date" name="tanggal_meninggal" id="tanggal_meninggal" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="sebab_kematian">Sebab Kematian <span class="text-danger">*</span></label>
+                                    <input type="text" name="sebab_kematian" id="sebab_kematian" class="form-control" 
+                                           placeholder="Contoh: Sakit, Kecelakaan, dll" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="alamat_meninggal">Tempat Meninggal <span class="text-danger">*</span></label>
+                                    <input type="text" name="alamat_meninggal" id="alamat_meninggal" class="form-control" 
+                                           placeholder="Contoh: Rumah Sakit, Rumah, dll" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        // Surat Izin Usaha
+        else if (jenisText.toLowerCase().includes('usaha') || jenisText.toLowerCase().includes('izin usaha')) {
+            dynamicHTML = `
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="fas fa-briefcase"></i> Data Khusus Surat Izin Usaha</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="nama_usaha">Nama Usaha <span class="text-danger">*</span></label>
+                                    <input type="text" name="nama_usaha" id="nama_usaha" class="form-control" 
+                                           placeholder="Masukkan nama usaha" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="jenis_usaha">Jenis Usaha <span class="text-danger">*</span></label>
+                                    <select name="jenis_usaha" id="jenis_usaha" class="form-control" required>
+                                        <option value="">-- Pilih Jenis Usaha --</option>
+                                        <option value="Perdagangan">Perdagangan</option>
+                                        <option value="Jasa">Jasa</option>
+                                        <option value="Manufaktur">Manufaktur</option>
+                                        <option value="Kuliner">Kuliner</option>
+                                        <option value="Pertanian">Pertanian</option>
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat_usaha">Alamat Usaha <span class="text-danger">*</span></label>
+                            <textarea name="alamat_usaha" id="alamat_usaha" rows="3" class="form-control" 
+                                      placeholder="Masukkan alamat lengkap tempat usaha" required></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        // Surat Keterangan Pindah
+        else if (jenisText.toLowerCase().includes('pindah')) {
+            dynamicHTML = `
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="fas fa-home"></i> Data Khusus Surat Keterangan Pindah</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="alamat_baru">Alamat Baru <span class="text-danger">*</span></label>
+                            <textarea name="alamat_baru" id="alamat_baru" rows="3" class="form-control" 
+                                      placeholder="Masukkan alamat lengkap tujuan pindah" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="jumlah_keluarga">Jumlah Keluarga Pindah <span class="text-danger">*</span></label>
+                            <input type="number" name="jumlah_keluarga" id="jumlah_keluarga" class="form-control" 
+                                   placeholder="Masukkan jumlah anggota keluarga yang pindah" min="1" required>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        $('#dynamic-fields').html(dynamicHTML);
+    }
+
     // Custom file input
     $('.custom-file-input').on('change', function() {
         let fileName = $(this).val().split('\\').pop();
         $(this).next('.custom-file-label').addClass("selected").html(fileName);
     });
 
-    // Form validation
+    // Enhanced form validation
     $('form').on('submit', function(e) {
         let isValid = true;
+        let errorMessages = [];
         
+        // Basic validation
         if (!$('#jenis_surat_id').val()) {
             isValid = false;
+            errorMessages.push('Jenis surat harus dipilih');
             $('#jenis_surat_id').addClass('is-invalid');
         }
         
         if (!$('#keperluan').val().trim()) {
             isValid = false;
+            errorMessages.push('Keperluan harus diisi');
             $('#keperluan').addClass('is-invalid');
+        }
+
+        // Dynamic field validation
+        const jenisText = $('#jenis_surat_id option:selected').text();
+        
+        if (jenisText.toLowerCase().includes('kematian')) {
+            if (!$('#hari_meninggal').val()) {
+                isValid = false;
+                errorMessages.push('Hari meninggal harus dipilih');
+                $('#hari_meninggal').addClass('is-invalid');
+            }
+            if (!$('#tanggal_meninggal').val()) {
+                isValid = false;
+                errorMessages.push('Tanggal meninggal harus diisi');
+                $('#tanggal_meninggal').addClass('is-invalid');
+            }
+            if (!$('#sebab_kematian').val().trim()) {
+                isValid = false;
+                errorMessages.push('Sebab kematian harus diisi');
+                $('#sebab_kematian').addClass('is-invalid');
+            }
+            if (!$('#alamat_meninggal').val().trim()) {
+                isValid = false;
+                errorMessages.push('Tempat meninggal harus diisi');
+                $('#alamat_meninggal').addClass('is-invalid');
+            }
+        }
+        
+        if (jenisText.toLowerCase().includes('usaha')) {
+            if (!$('#nama_usaha').val().trim()) {
+                isValid = false;
+                errorMessages.push('Nama usaha harus diisi');
+                $('#nama_usaha').addClass('is-invalid');
+            }
+            if (!$('#jenis_usaha').val()) {
+                isValid = false;
+                errorMessages.push('Jenis usaha harus dipilih');
+                $('#jenis_usaha').addClass('is-invalid');
+            }
+            if (!$('#alamat_usaha').val().trim()) {
+                isValid = false;
+                errorMessages.push('Alamat usaha harus diisi');
+                $('#alamat_usaha').addClass('is-invalid');
+            }
+        }
+        
+        if (jenisText.toLowerCase().includes('pindah')) {
+            if (!$('#alamat_baru').val().trim()) {
+                isValid = false;
+                errorMessages.push('Alamat baru harus diisi');
+                $('#alamat_baru').addClass('is-invalid');
+            }
+            if (!$('#jumlah_keluarga').val() || $('#jumlah_keluarga').val() < 1) {
+                isValid = false;
+                errorMessages.push('Jumlah keluarga pindah harus diisi dengan benar');
+                $('#jumlah_keluarga').addClass('is-invalid');
+            }
         }
         
         if (!isValid) {
@@ -269,9 +458,14 @@ $(document).ready(function() {
             Swal.fire({
                 icon: 'error',
                 title: 'Form Tidak Valid',
-                text: 'Mohon lengkapi semua field yang wajib diisi'
+                html: '<ul style="text-align: left;">' + errorMessages.map(msg => '<li>' + msg + '</li>').join('') + '</ul>'
             });
         }
+    });
+
+    // Remove is-invalid class when user starts typing
+    $('body').on('input change', 'input, select, textarea', function() {
+        $(this).removeClass('is-invalid');
     });
 });
 </script>

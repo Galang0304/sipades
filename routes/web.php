@@ -129,6 +129,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Public informasi route for all authenticated users
     Route::get('informasi-public', [\App\Http\Controllers\InformasiController::class, 'publicView'])->name('informasi.public');
+    Route::get('informasi-public/{id}', [\App\Http\Controllers\InformasiController::class, 'show'])->name('informasi.public.show');
 
     // Admin only routes  
     Route::middleware(['role:admin'])->prefix('admin')->name('admin.')->group(function () {

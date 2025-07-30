@@ -68,6 +68,39 @@
             margin-right: 0.5rem;
         }
         
+        /* User dropdown menu styling */
+        .user-menu .dropdown-menu {
+            min-width: 280px;
+            border: 1px solid #ddd;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .user-menu .dropdown-header {
+            padding: 10px 15px;
+            text-align: center;
+        }
+        
+        .user-menu .dropdown-menu .btn {
+            margin: 2px;
+        }
+        
+        /* Force dropdown to show when needed */
+        .user-menu.show .dropdown-menu,
+        .user-menu .dropdown-menu.show {
+            display: block !important;
+        }
+        
+        /* Make sure dropdown is clickable */
+        .dropdown-toggle::after {
+            content: "";
+        }
+        
+        /* Ensure dropdown positioning */
+        .dropdown-menu-right {
+            right: 0;
+            left: auto;
+        }
+        
         /* Make sidebar scrollable and logout always at bottom */
         .sidebar {
             display: flex;
@@ -134,7 +167,7 @@
         <ul class="navbar-nav ml-auto">
             @auth
             <li class="nav-item dropdown user-menu">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
                     <!-- Foto profil bulat kecil -->
                     @if(auth()->user()->foto_profil)
                         <img src="{{ asset('storage/' . auth()->user()->foto_profil) }}" 
@@ -148,35 +181,39 @@
                              style="width: 25px; height: 25px; object-fit: cover; margin-right: 8px;">
                     @endif
                     <span class="d-none d-md-inline">{{ auth()->user()->name }}</span>
+                    <i class="fas fa-caret-down ml-1"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
                     <!-- User info -->
-                    <li class="user-header bg-primary">
-                        <p>
-                            {{ auth()->user()->name }}
-                            <small>{{ auth()->user()->role_name }}</small>
-                        </p>
-                    </li>
+                    <div class="dropdown-header bg-primary text-white">
+                        <strong>{{ auth()->user()->name }}</strong><br>
+                        <small>{{ auth()->user()->role_name }}</small>
+                    </div>
                     <!-- Menu Body-->
-                    <li class="user-body">
-                        <div class="row">
-                            <div class="col-12 text-center">
-                                <a href="{{ route('profile.edit') }}" class="btn btn-default btn-flat">
-                                    <i class="fas fa-user-edit"></i> Edit Profile
-                                </a>
-                            </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="row mx-2 my-3">
+                        <div class="col-6">
+                            <a href="{{ route('surat.create') }}" class="btn btn-primary btn-sm btn-block">
+                                <i class="fas fa-plus-circle"></i> Buat Surat
+                            </a>
                         </div>
-                    </li>
+                        <div class="col-6">
+                            <a href="{{ route('profile.edit') }}" class="btn btn-secondary btn-sm btn-block">
+                                <i class="fas fa-user-edit"></i> Edit Profile
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
                     <!-- Menu Footer-->
-                    <li class="user-footer">
-                        <a href="#" class="btn btn-default btn-flat float-right" onclick="confirmLogout()">
+                    <div class="dropdown-item-text text-center">
+                        <a href="#" class="btn btn-danger btn-sm" onclick="confirmLogout()">
                             <i class="fas fa-sign-out-alt"></i> Sign out
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </li>
             @endauth
         </ul>
@@ -287,7 +324,13 @@
                         <ul class="nav nav-treeview">
                             @if(auth()->user()->hasRole(['admin', 'user']))
                             <li class="nav-item">
-                                <a href="{{ route('surat.index') }}" class="nav-link {{ request()->routeIs('surat.*') ? 'active' : '' }}">
+                                <a href="{{ route('surat.create') }}" class="nav-link {{ request()->routeIs('surat.create') ? 'active' : '' }}">
+                                    <i class="far fa-plus-square nav-icon"></i>
+                                    <p>Buat Surat</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('surat.index') }}" class="nav-link {{ request()->routeIs('surat.index') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Pengajuan Surat</p>
                                 </a>
@@ -511,6 +554,32 @@
         if (typeof $.fn.Treeview !== 'undefined') {
             $('[data-widget="treeview"]').Treeview('init');
         }
+        
+        // Initialize Bootstrap dropdowns
+        $('.dropdown-toggle').dropdown();
+        
+        // Manual dropdown toggle for user menu (fallback)
+        $('.user-menu .dropdown-toggle').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const $dropdown = $(this).parent();
+            const $menu = $dropdown.find('.dropdown-menu');
+            
+            // Close all other dropdowns
+            $('.dropdown').not($dropdown).removeClass('show').find('.dropdown-menu').removeClass('show');
+            
+            // Toggle current dropdown
+            $dropdown.toggleClass('show');
+            $menu.toggleClass('show');
+        });
+        
+        // Close dropdown when clicking outside
+        $(document).on('click', function(e) {
+            if (!$(e.target).closest('.user-menu').length) {
+                $('.user-menu').removeClass('show').find('.dropdown-menu').removeClass('show');
+            }
+        });
         
         // Fallback for dropdown functionality
         $('.nav-link[data-toggle="treeview"]').off('click').on('click', function(e) {

@@ -93,18 +93,9 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-### 4. Database Setup
-Edit file `.env` dengan konfigurasi database Anda:
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=sipades_db
-DB_USERNAME=your_username
-DB_PASSWORD=your_password
-```
 
-Jalankan migrasi dan seeder:
+
+4 Jalankan migrasi dan seeder:
 ```bash
 # Create database (optional)
 mysql -u root -p -e "CREATE DATABASE sipades_db"
@@ -139,13 +130,9 @@ MAIL_FROM_ADDRESS=your-email@gmail.com
 MAIL_FROM_NAME="SIPADES System"
 ```
 
-### 7. Compile Assets
-```bash
-# Development
 
-```
 
-### 8. Run Application
+### 7. Run Application
 ```bash
 # Development server
 php artisan serve

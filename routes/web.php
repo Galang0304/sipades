@@ -109,20 +109,24 @@ Route::middleware(['auth'])->group(function () {
         ]);
     });
 
-    // Admin and Petugas routes for user approval
+    // Admin, Petugas, and Lurah routes for reports only
+    Route::middleware(['role:admin|petugas|lurah'])->group(function () {
+        // Laporan Routes (accessible by admin, petugas, and lurah)
+        Route::get('laporan/surat', [\App\Http\Controllers\LaporanSuratController::class, 'index'])->name('laporan.surat');
+        Route::get('laporan/surat/cetak', [\App\Http\Controllers\LaporanSuratController::class, 'cetak'])->name('laporan.surat.cetak');
+        Route::get('laporan/penduduk', [\App\Http\Controllers\LaporanPendudukController::class, 'index'])->name('laporan.penduduk');
+        Route::get('laporan/penduduk/cetak', [\App\Http\Controllers\LaporanPendudukController::class, 'cetak'])->name('laporan.penduduk.cetak');
+        Route::get('laporan/informasi', [\App\Http\Controllers\LaporanInformasiController::class, 'index'])->name('laporan.informasi');
+        Route::get('laporan/informasi/cetak', [\App\Http\Controllers\LaporanInformasiController::class, 'cetak'])->name('laporan.informasi.cetak');
+    });
+
+    // Admin and Petugas routes for user approval and informasi management
     Route::middleware(['role:admin|petugas'])->group(function () {
         // User Approval Routes (accessible by admin and petugas)
         Route::get('user-approval', [\App\Http\Controllers\Admin\UserApprovalController::class, 'index'])->name('user-approval.index');
         Route::post('user-approval/{user}/approve', [\App\Http\Controllers\Admin\UserApprovalController::class, 'approve'])->name('user-approval.approve');
         Route::post('user-approval/{user}/reject', [\App\Http\Controllers\Admin\UserApprovalController::class, 'reject'])->name('user-approval.reject');
         Route::get('user-approval/{user}', [\App\Http\Controllers\Admin\UserApprovalController::class, 'show'])->name('user-approval.show');
-        
-        // Laporan Routes (accessible by admin and petugas only)
-        Route::get('laporan/surat', [\App\Http\Controllers\LaporanSuratController::class, 'index'])->name('laporan.surat');
-        Route::get('laporan/surat/cetak', [\App\Http\Controllers\LaporanSuratController::class, 'cetak'])->name('laporan.surat.cetak');
-        Route::get('laporan/penduduk', [\App\Http\Controllers\LaporanPendudukController::class, 'index'])->name('laporan.penduduk');
-        Route::get('laporan/penduduk/cetak', [\App\Http\Controllers\LaporanPendudukController::class, 'cetak'])->name('laporan.penduduk.cetak');
-        Route::get('laporan/informasi', [\App\Http\Controllers\LaporanInformasiController::class, 'index'])->name('laporan.informasi');
         
         // Informasi Routes (accessible by admin and petugas only)
         Route::resource('informasi', \App\Http\Controllers\InformasiController::class);

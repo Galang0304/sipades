@@ -101,6 +101,9 @@
                             <a href="{{ route('laporan.informasi') }}" class="btn btn-secondary">
                                 <i class="fas fa-redo"></i> Reset
                             </a>
+                            <button type="button" class="btn btn-success" onclick="cetakLaporan()">
+                                <i class="fas fa-print"></i> Cetak
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -175,6 +178,23 @@
 
 @push('scripts')
 <script>
+function cetakLaporan() {
+    // Ambil parameter filter saat ini
+    const form = document.getElementById('filterForm');
+    const formData = new FormData(form);
+    const params = new URLSearchParams(formData);
+    
+    // Buka halaman cetak di jendela baru untuk print
+    const printWindow = window.open(`{{ route('laporan.informasi.cetak') }}?${params.toString()}`, '_blank');
+    
+    // Tunggu halaman dimuat, lalu print
+    printWindow.onload = function() {
+        setTimeout(function() {
+            printWindow.print();
+        }, 500);
+    };
+}
+
 // Auto submit form ketika filter berubah
 $(document).ready(function() {
     $('#tanggal_mulai, #tanggal_selesai').on('change', function() {

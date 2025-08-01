@@ -383,7 +383,9 @@
                             <p>Kelola Informasi</p>
                         </a>
                     </li>
+                    @endhasrole
 
+                    @hasrole(['admin', 'petugas', 'lurah'])
                     <!-- Laporan -->
                     <li class="nav-item {{ request()->routeIs('laporan.*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ request()->routeIs('laporan.*') ? 'active' : '' }}" data-toggle="treeview">

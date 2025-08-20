@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\InformasiKelurahan;
 use Carbon\Carbon;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanInformasiController extends Controller
 {
@@ -57,17 +56,7 @@ class LaporanInformasiController extends Controller
 
         $informasi = $query->orderBy('created_at', 'desc')->get();
 
-        // Debug: log data
-        \Log::info('Data informasi untuk cetak: ' . $informasi->count());
-
-        $pdf = PDF::loadView('laporan.informasi.cetak', compact('informasi'))
-            ->setPaper('a4', 'portrait')
-            ->setOptions([
-                'isHtml5ParserEnabled' => true,
-                'isPhpEnabled' => true,
-                'defaultFont' => 'Arial'
-            ]);
-
-        return $pdf->stream('laporan-informasi-' . date('Y-m-d') . '.pdf');
+    // Tampilkan halaman cetak HTML dan biarkan browser yang mencetak (tanpa Dompdf)
+    return view('laporan.informasi.cetak', compact('informasi'));
     }
 }

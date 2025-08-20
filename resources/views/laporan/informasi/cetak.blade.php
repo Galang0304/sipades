@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Laporan Informasi</title>
     <style>
-        body { font-family: Arial; margin: 15px; font-size: 12px; }
+    body { font-family: Arial, sans-serif; margin: 15px; font-size: 12px; }
         h3 { text-align: center; margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 30px; }
         th, td { border: 1px solid #000; padding: 5px; }
@@ -29,6 +29,10 @@
             border-bottom: 1px solid #000;
             width: 200px;
             margin-left: auto;
+        }
+        @media print {
+            @page { size: A4; margin: 1cm; }
+            body { margin: 0; font-size: 11px; }
         }
     </style>
 </head>
@@ -73,6 +77,8 @@
             <p style="font-size: 10px; font-style: italic;">Lurah Kuin Selatan</p>
         </div>
     </div>
-    
+    <script>
+        window.print();
+    </script>
 </body>
 </html>

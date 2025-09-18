@@ -118,6 +118,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('laporan/penduduk/cetak', [\App\Http\Controllers\LaporanPendudukController::class, 'cetak'])->name('laporan.penduduk.cetak');
         Route::get('laporan/informasi', [\App\Http\Controllers\LaporanInformasiController::class, 'index'])->name('laporan.informasi');
         Route::get('laporan/informasi/cetak', [\App\Http\Controllers\LaporanInformasiController::class, 'cetak'])->name('laporan.informasi.cetak');
+        
+        // Statistik Surat Routes (accessible by admin, petugas, and lurah)
+        Route::get('statistik/surat', [\App\Http\Controllers\StatistikSuratController::class, 'index'])->name('statistik.surat');
+        Route::get('statistik/surat/data', [\App\Http\Controllers\StatistikSuratController::class, 'chartData'])->name('statistik.surat.data');
     });
 
     // Admin and Petugas routes for user approval and informasi management

@@ -387,8 +387,8 @@
 
                     @hasrole(['admin', 'petugas', 'lurah'])
                     <!-- Laporan -->
-                    <li class="nav-item {{ request()->routeIs('laporan.*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ request()->routeIs('laporan.*') ? 'active' : '' }}" data-toggle="treeview">
+                    <li class="nav-item {{ request()->routeIs('laporan.*') || request()->routeIs('statistik.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ request()->routeIs('laporan.*') || request()->routeIs('statistik.*') ? 'active' : '' }}" data-toggle="treeview">
                             <i class="nav-icon fas fa-chart-bar"></i>
                             <p>
                                 Laporan
@@ -412,6 +412,12 @@
                                 <a href="{{ route('laporan.informasi') }}" class="nav-link {{ request()->routeIs('laporan.informasi') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Laporan Informasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('statistik.surat') }}" class="nav-link {{ request()->routeIs('statistik.surat*') ? 'active' : '' }}">
+                                    <i class="fas fa-chart-line nav-icon"></i>
+                                    <p>Statistik Surat</p>
                                 </a>
                             </li>
                         </ul>
